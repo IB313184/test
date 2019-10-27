@@ -129,14 +129,3 @@ before_deploy:
 - cp bitcoinnova-${TRAVIS_TAG}-${LABEL}.tar.gz builds
 - cd builds
 
-deploy:
-  - provider: releases
-    api_key:
-      secure: X39CcZqsQAFwm9gbDzNgPfr4kZZJ61MWvWQ2ks3ubKdENH8G0vWi+bOtC1DPwxofS+zovg10n7UIYBF1BrPrHW/nYTIseAJdemWBAiakuR+10HxN+m6B3DLrC11gntD0VgR2ezshqs80Vhfhf6UwnJOBdSgd9XsBTRw+PQIeDijfCsPgRHMDwNTr6+fsIysR/8cEVvkpCY71U+ZFVJq3AsDZMlqx6etiM+HW8b9k9Qbr3WjhfWbBvve917YnhoFSWb2YphGTHUZJ1xbBMcbdk96H/5IiV3lUjkpj6QCBWD9waTC5Rr03D0lc4FoGgFvvfLQ+mkMLbTp966DwdodC87PtlnIsZdAus9Mmso+QWIPc7GlX5rO/R+dLV2lTHFl7FzvUkurzEvLBcj5Pwsk9PEkPbWk3VomORazdAA5NJd6vk5plUaQFR/c39YDcynum9cbfe0/ODSmqBx9go35dITmHKIJmdupc8oJ/a2L+eqdlsL9/c0SE7yz7adIWa2ChHYRIwLQ4qQ2toBO+uq5UTlpldVkPLyAFSp0WpO6kVs/qL8raeyBeAkHu0WQ2nPXPSIc0qkdekdYebvigA3GoemXI9xB5P0fiHqvdr2860QsZAvEDcbKPP0pDDQodngb0FuZaZ0M+G+mNDCsCa8xG86118/qjQGxCzgyu5fXSER8=
-    file:
-      - bitcoinnova-${TRAVIS_TAG}-${LABEL}.tar.gz
-    skip_cleanup: true
-    on:
-      repo: IB313184/Bitcoinnova-0.14.6
-      tags: true
-      condition: "$_DEPLOYABLE = true"
