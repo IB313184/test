@@ -6,7 +6,7 @@
 
 ### Installing
 
-We offer binary images of the latest releases here: http://latest.bitcoinnova.org
+We offer binary images of the latest releases here:: http://latest.bitcoinnova.org
 
 If you would like to compile yourself, read on.
 
