@@ -116,15 +116,15 @@ script:
 
 before_deploy:
 - if [[ "${TRAVIS_TAG}" == "" ]]; then export TRAVIS_TAG=${TRAVIS_COMMIT} ; fi
-- cd src
+- cd build/src
 - TARGETS="Bitcoinnovad miner zedwallet Bitcoinnova-service zedwallet-beta cryptotest wallet-api"
 - ${STRIP} ${TARGETS}
-- rm -rf bitcoinnova-${TRAVIS_TAG}
+- rm -R libErrors.a libMnemonics.a libSerialization.a  libWallet.a libBlockchainExplorer.a libHttp.a libNigel.a libSubWallets.a libWalletBackend.a CMakeFiles libCommon.a libJsonRpcServer.a  libNodeRpcProxy.a  libSystem.a Makefile libCrypto.a libLogger.a libP2P.a libTransfers.a cmake_install.cmake libCryptoNoteCore.a libLogging.a libRpc.a libUtilities.a 
 - mkdir bitcoinnova-${TRAVIS_TAG}
 - cp ${TARGETS} bitcoinnova-${TRAVIS_TAG}/
 - cp ../../LICENSE bitcoinnova-${TRAVIS_TAG}/
 - tar cvfz bitcoinnova-${TRAVIS_TAG}-${LABEL}.tar.gz bitcoinnova-${TRAVIS_TAG}/
-- rm -rf builds
+- ls
 - mkdir builds
 - cp bitcoinnova-${TRAVIS_TAG}-${LABEL}.tar.gz builds
 - cd builds
