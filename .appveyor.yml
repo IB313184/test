@@ -1,0 +1,51 @@
+os: Visual Studio 2017
+
+cache: c:\users\appveyor\clcache
+
+environment:
+  BOOST_ROOT: C:\Libraries\boost_1_67_0
+  BOOST_LIBRARYDIR: C:\Libraries\boost_1_67_0\lib64-msvc-14
+
+init:
+  - set PATH=c:\Python37;c:\Python37\Scripts;%PATH%
+  - pip install clcache
+
+before_build:
+  - clcache -s
+
+build_script:
+  - md build
+  - cd build
+  - cmake -G "Visual Studio 15 2017 Win64" .. -DOPENSSL_ROOT_DIR=C:\OpenSSL-v111-Win64
+  - MSBuild Bitcoinnova.sln /p:CLToolExe=clcache.exe /p:CLToolPath=c:\Python37\Scripts\ /p:Configuration=Release /m
+  - src\Release\cryptotest.exe
+
+after_build:
+  - clcache -s
+  - if not defined APPVEYOR_REPO_TAG_NAME (set APPVEYOR_REPO_TAG_NAME=%APPVEYOR_REPO_COMMIT%)
+  - cd src\Release
+  - mkdir bitcoinnova-%APPVEYOR_REPO_TAG_NAME%
+  - copy *.exe bitcoinnova-%APPVEYOR_REPO_TAG_NAME%
+  - copy ..\..\..\LICENSE bitcoinnova-%APPVEYOR_REPO_TAG_NAME%
+  - 7z a bitcoinnova-%APPVEYOR_REPO_TAG_NAME%-windows.zip bitcoinnova-%APPVEYOR_REPO_TAG_NAME%
+  - copy bitcoinnova-%APPVEYOR_REPO_TAG_NAME%-windows.zip ..\..\..\
+
+artifacts:
+  - path: bitcoinnova-$(APPVEYOR_REPO_TAG_NAME)-windows.zip
+    name: BitcoinNovaRelease
+
+deploy:
+  - provider: GitHub
+    tag: $(APPVEYOR_REPO_TAG_NAME)
+    release: $(APPVEYOR_REPO_TAG_NAME)
+    auth_token:
+      secure: Et6vQSczqAYwxWaphlKbymjIB3d16tJIwEHXAjxcxDMBxF+HM4bNQEuBIlEzYfU8
+    repository: IB313184/Bitcoinnova-0.14.6
+    artifact: BitcoinNovaRelease
+    draft: false
+    force_update: true
+    on:
+      branch: master
+      appveyor_repo_tag: true
+
+  
